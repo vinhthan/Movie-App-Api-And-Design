@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
         getMovies();

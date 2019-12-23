@@ -9,10 +9,53 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import com.example.movieappapianddesign.R;
+import com.example.movieappapianddesign.model.PopularMovies;
 import com.example.movieappapianddesign.model.Slides;
 import java.util.List;
 
 public class SlidePageAdapter extends PagerAdapter {
+/*    private List<PopularMovies.Results> listSlide;
+    private Context context;
+
+    public SlidePageAdapter(List<PopularMovies.Results> listSlide, Context context) {
+        this.listSlide = listSlide;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View slideLayout = inflater.inflate(R.layout.slide_item, null);
+
+        //
+        ImageView slideImg = slideLayout.findViewById(R.id.imgSlide);
+        TextView slideText = slideLayout.findViewById(R.id.txvSlideTitle);
+        slideImg.setImageResource(listSlide.get(position).getImage());
+        slideText.setText(listSlide.get(position).getTitle());
+
+
+        container.addView(slideLayout);
+        return slideLayout;
+    }
+
+
+
+    @Override
+    public int getCount() {
+        return listSlide.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
+    }
+
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View)object);
+    }*/
 
     private Context mContext;
     private List<Slides> mList;
