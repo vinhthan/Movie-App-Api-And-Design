@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.movieappapianddesign.R;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
         getMovies();
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
 
         slidePageAdapter = new SlidePageAdapter(this, listSlides);
         slidePage.setAdapter(slidePageAdapter);
-
 
         //setup time
         Timer timer = new Timer();
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
                     //add list
                     mList.addAll(response.body().getResults());
                     popularMovieAdapter.notifyDataSetChanged();
+
 
                 }
             }

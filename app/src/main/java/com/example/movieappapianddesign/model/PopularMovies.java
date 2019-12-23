@@ -71,6 +71,7 @@ public class PopularMovies {
         @SerializedName("overview")
         private final String overview;
 
+        @SerializedName("release_date")
         private final String releaseDate;
 
         public Results(double popularity, int voteCount, boolean video, String posterPath, int id,

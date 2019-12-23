@@ -33,7 +33,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.iteam_movie, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -42,6 +42,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         PopularMovies.Results movie = list.get(position);
 
         holder.txvItemMovieTitle.setText(movie.getTitle());
+        holder.txvDate.setText(movie.getReleaseDate());
         Glide.with(context).load(movie.getBackdropPath()).into(holder.imgItemMovie);
 
 
@@ -53,14 +54,16 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView txvItemMovieTitle;
+        private TextView txvItemMovieTitle, txvDate;
         private ImageView imgItemMovie;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txvItemMovieTitle = itemView.findViewById(R.id.txvItemMovieTitle);
+            txvDate = itemView.findViewById(R.id.txvDate);
             imgItemMovie = itemView.findViewById(R.id.imgItemMovie);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
