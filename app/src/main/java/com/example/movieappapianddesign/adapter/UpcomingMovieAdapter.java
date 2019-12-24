@@ -35,9 +35,9 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UpcomingMovies.Results upComingMovies = listUpComing.get(position);
 
-        holder.txvTitleUpComing.setText(upComingMovies.getTitle());
-        holder.txvDateUpComing.setText(upComingMovies.getReleaseDate());
-        Glide.with(context).load(upComingMovies.getBackdropPath()).into(holder.imgMovieUpComing);
+        holder.txvItemTitleUpComing.setText(upComingMovies.getTitle());
+        holder.txvItemDateUpComing.setText(upComingMovies.getReleaseDate());
+        Glide.with(context).load(upComingMovies.getBackdropPath()).into(holder.imgItemMovieUpComing);
     }
 
     @Override
@@ -46,14 +46,14 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgMovieUpComing;
-        private TextView txvTitleUpComing, txvDateUpComing;
+        private ImageView imgItemMovieUpComing;
+        private TextView txvItemTitleUpComing, txvItemDateUpComing;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgMovieUpComing = itemView.findViewById(R.id.imgMovieUpComing);
-            txvTitleUpComing = itemView.findViewById(R.id.txvTitleUpComing);
-            txvDateUpComing = itemView.findViewById(R.id.txvDateUpComing);
+            imgItemMovieUpComing = itemView.findViewById(R.id.imgItemMovieUpComing);
+            txvItemTitleUpComing = itemView.findViewById(R.id.txvItemTitleUpComing);
+            txvItemDateUpComing = itemView.findViewById(R.id.txvItemDateUpComing);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

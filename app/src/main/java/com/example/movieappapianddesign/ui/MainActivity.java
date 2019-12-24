@@ -153,29 +153,29 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
     @Override
     public void onClickListenerPopularMovies(int position) {
-        PopularMovies.Results movie = mListPopular.get(position);
+        PopularMovies.Results moviePopular = mListPopular.get(position);
         //Toast.makeText(this, "Position: "+ position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MainActivity.this, MoviesDetailActivity.class);
-        intent.putExtra("titlePopular", movie.getTitle());
-        intent.putExtra("imagePosterPopular", movie.getBackdropPath());
-        intent.putExtra("smallPosterPopular", movie.getPosterPath());
-        intent.putExtra("overviewPopular", movie.getOverview());
+        Intent intent = new Intent(MainActivity.this, MoviesDetailPopularActivity.class);
+        intent.putExtra("titlePopular", moviePopular.getTitle());
+        intent.putExtra("imagePosterPopular", moviePopular.getBackdropPath());
+        intent.putExtra("smallPosterPopular", moviePopular.getPosterPath());
+        intent.putExtra("overviewPopular", moviePopular.getOverview());
 
         startActivity(intent);
     }
 
 
     @Override
-    public void onClickListenerUpcoming(int position) {
-        UpcomingMovies.Results movieUpcoming = mListUpComing.get(position);
+    public void onClickListenerUpcoming(int positionUp) {
+        UpcomingMovies.Results movieUpcoming = mListUpComing.get(positionUp);
         //Toast.makeText(this, "Position: "+ position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MainActivity.this, MoviesDetailActivity.class);
-        intent.putExtra("titleUpcoming", movieUpcoming.getTitle());
-        intent.putExtra("imagePosterUpcoming", movieUpcoming.getBackdropPath());
-        intent.putExtra("smallPosterUpcoming", movieUpcoming.getPosterPath());
-        intent.putExtra("overviewUpcoming", movieUpcoming.getOverview());
+        Intent intentUp = new Intent(MainActivity.this, MoviesDetailUpcomingActivity.class);
+        intentUp.putExtra("titleUpcoming", movieUpcoming.getTitle());
+        intentUp.putExtra("imagePosterUpcoming", movieUpcoming.getBackdropPath());
+        intentUp.putExtra("smallPosterUpcoming", movieUpcoming.getPosterPath());
+        intentUp.putExtra("overviewUpcoming", movieUpcoming.getOverview());
 
-        startActivity(intent);
+        startActivity(intentUp);
     }
 }
 //api key:
