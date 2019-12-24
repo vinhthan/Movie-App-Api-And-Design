@@ -48,4 +48,5 @@
         app:layout_constraintStart_toStartOf="@+id/imgItemMovieUpComing"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bg_gradient" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

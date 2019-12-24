@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorViolet"
-    tools:context=".ui.MoviesDetailUpcomingActivity">
+    tools:context=".ui.movies.MoviesDetailUpcomingActivity">
 
     <ImageView
         android:id="@+id/imgPosterUpcoming"

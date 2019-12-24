@@ -1,11 +1,17 @@
-package com.example.movieappapianddesign.ui;
+package com.example.movieappapianddesign.ui.movies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.movieappapianddesign.R;
 import com.example.movieappapianddesign.adapter.ItemOnClickListenerPopular;
@@ -19,6 +25,8 @@ import com.example.movieappapianddesign.model.Constants;
 import com.example.movieappapianddesign.model.PopularMovies;
 import com.example.movieappapianddesign.model.Slide;
 import com.example.movieappapianddesign.model.UpcomingMovies;
+import com.example.movieappapianddesign.ui.login.RegistrationActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -26,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming {
+    private ImageView imgRight, imgLeft;
     private RecyclerView recyclerView, recyclerViewUpComing;
     private List<PopularMovies.Results> mListPopular;
     private List<UpcomingMovies.Results> mListUpComing;
@@ -42,55 +51,47 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        imgRight = findViewById(R.id.imgRight);
+        imgLeft = findViewById(R.id.imgLeft);
+
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
         getMoviesPopular();
 
         getMoviesUpComing();
 
-        //slide
-        //initSlideImage();
+        hideShowLeftRight();
+
+
 
     }
 
+    private void hideShowLeftRight() {
+        recyclerViewUpComing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-    //slide
-/*    private void initSlideImage() {
-        slidePage = findViewById(R.id.slidePage);
-        //list slide
-        listSlides = new ArrayList<>();
+                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                //int totalItemCount = layoutManager.getItemCount();
+                int lastVisible = layoutManager.findLastVisibleItemPosition();
+                int firstVisible = layoutManager.findFirstVisibleItemPosition();
 
-        listSlides.add(new Slide(R.drawable.slide2, "Slide title \nmore text here"));
-        listSlides.add(new Slide(R.drawable.slide3, "Slide title \nmore text here"));
-        listSlides.add(new Slide(R.drawable.slide2, "Slide title \nmore text here"));
-        listSlides.add(new Slide(R.drawable.slide3, "Slide title \nmore text here"));
-
-        slidePageAdapter = new SlidePageAdapter(this, listSlides);
-        slidePage.setAdapter(slidePageAdapter);
-
-        //setup time
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SlideTime(),
-                3000, 4000);//img dau 3s, img sau 4s
-
-    }
-
-    private class SlideTime extends TimerTask {
-        @Override
-        public void run() {
-            MainActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (slidePage.getCurrentItem() < listSlides.size() - 1){
-                        slidePage.setCurrentItem(slidePage.getCurrentItem() + 1);
-                    }else {
-                        slidePage.setCurrentItem(0);
-                    }
+                if (lastVisible == mListUpComing.size() - 1){
+                    imgRight.setVisibility(View.GONE);
+                }else {
+                    imgRight.setVisibility(View.VISIBLE);
                 }
-            });
-        }
-    }*/
 
+                if (firstVisible == 0){
+                    imgLeft.setVisibility(View.GONE);
+                }else {
+                    imgLeft.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+    }
 
     private void getMoviesPopular() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                     //add list
                     mListUpComing.addAll(response.body().getResults());
                     upComingMovieAdapter.notifyDataSetChanged();
+
                 }
             }
 
@@ -176,6 +178,25 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         intentUp.putExtra("overviewUpcoming", movieUpcoming.getOverview());
 
         startActivity(intentUp);
+    }
+
+    //menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_register, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menuRegister:
+                Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 //api key:

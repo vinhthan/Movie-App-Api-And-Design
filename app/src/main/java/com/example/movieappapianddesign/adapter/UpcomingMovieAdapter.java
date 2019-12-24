@@ -38,6 +38,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
         holder.txvItemTitleUpComing.setText(upComingMovies.getTitle());
         holder.txvItemDateUpComing.setText(upComingMovies.getReleaseDate());
         Glide.with(context).load(upComingMovies.getBackdropPath()).into(holder.imgItemMovieUpComing);
+
     }
 
     @Override
@@ -46,12 +47,13 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgItemMovieUpComing;
+        private ImageView imgItemMovieUpComing, imgNext;
         private TextView txvItemTitleUpComing, txvItemDateUpComing;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgItemMovieUpComing = itemView.findViewById(R.id.imgItemMovieUpComing);
+            imgNext = itemView.findViewById(R.id.imgRight);
             txvItemTitleUpComing = itemView.findViewById(R.id.txvItemTitleUpComing);
             txvItemDateUpComing = itemView.findViewById(R.id.txvItemDateUpComing);
 

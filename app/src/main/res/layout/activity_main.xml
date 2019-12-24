@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.movies.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -76,6 +76,24 @@
             android:textSize="23sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerViewUpComing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recyclerViewUpComing"
+            app:srcCompat="@drawable/ic_right" />
+
+        <ImageView
+            android:id="@+id/imgLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/imgRight"
+            app:layout_constraintStart_toStartOf="@+id/recyclerViewUpComing"
+            app:layout_constraintTop_toTopOf="@+id/imgRight"
+            app:srcCompat="@drawable/ic_left" />
 
 
         <!--        <TextView
