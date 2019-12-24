@@ -6,23 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.movieappapianddesign.R;
 import com.example.movieappapianddesign.model.UpcomingMovies;
-
 import java.util.List;
 
 public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.ViewHolder> {
     private List<UpcomingMovies.Results> listUpComing;
     private Context context;
+    private ItemOnClickListenerUpcoming onClickListenerUpcoming;
 
-    public UpcomingMovieAdapter(List<UpcomingMovies.Results> listUpComing, Context context) {
+    public UpcomingMovieAdapter(List<UpcomingMovies.Results> listUpComing, Context context, ItemOnClickListenerUpcoming onClickListenerUpcoming) {
         this.listUpComing = listUpComing;
         this.context = context;
+        this.onClickListenerUpcoming = onClickListenerUpcoming;
     }
 
     @NonNull
@@ -55,6 +54,14 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
             imgMovieUpComing = itemView.findViewById(R.id.imgMovieUpComing);
             txvTitleUpComing = itemView.findViewById(R.id.txvTitleUpComing);
             txvDateUpComing = itemView.findViewById(R.id.txvDateUpComing);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClickListenerUpcoming.onClickListenerUpcoming(getPosition());
+                }
+            });
+
         }
     }
 }

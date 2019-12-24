@@ -11,23 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.movieappapianddesign.R;
 import com.example.movieappapianddesign.model.PopularMovies;
-
 import java.util.List;
 
 public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapter.ViewHolder> {
     private List<PopularMovies.Results> list;
     private Context context;
-    private ItemOnclickListener itemOnclickListener;
+    private ItemOnClickListenerPopular itemOnclickListenerPopular;
 
     /*public PopularMovieAdapter(List<PopularMovies.Results> list, Context context) {
         this.list = list;
         this.context = context;
     }*/
 
-    public PopularMovieAdapter(List<PopularMovies.Results> list, Context context, ItemOnclickListener itemOnclickListener) {
+    public PopularMovieAdapter(List<PopularMovies.Results> list, Context context, ItemOnClickListenerPopular itemOnclickListenerPopular) {
         this.list = list;
         this.context = context;
-        this.itemOnclickListener = itemOnclickListener;
+        this.itemOnclickListenerPopular = itemOnclickListenerPopular;
     }
 
     @NonNull
@@ -44,8 +43,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         holder.txvMovieTitlePopular.setText(movie.getTitle());
         holder.txvDatePopular.setText(movie.getReleaseDate());
         Glide.with(context).load(movie.getBackdropPath()).into(holder.imgMoviePopular);
-
-
     }
 
     @Override
@@ -64,11 +61,10 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             txvDatePopular = itemView.findViewById(R.id.txvDatePopular);
             imgMoviePopular = itemView.findViewById(R.id.imgMoviePopular);
 
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemOnclickListener.onClickListenerPopularMovies(getPosition());
+                    itemOnclickListenerPopular.onClickListenerPopularMovies(getPosition());
                 }
             });
 

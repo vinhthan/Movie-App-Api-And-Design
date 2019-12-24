@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imgMovieUpComing"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="260dp"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-9dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
 
     <TextView
         android:id="@+id/txvTitleUpComing"
@@ -33,9 +33,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:text="Date"
         android:textColor="@color/colorWhile"
         app:layout_constraintBottom_toBottomOf="@+id/imgMovieUpComing"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgMovieUpComing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imgMovieUpComing"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bg_gradient" />
 </androidx.constraintlayout.widget.ConstraintLayout>

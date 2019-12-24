@@ -16,8 +16,6 @@ public interface ApiInterface {
     @GET("movie/upcoming")
     Call<UpcomingMovies> getMoviesUpComing(@Query("api_key") String api_key);
 
-
-
 }
 //api key:
 //034bbd1b233d6726e0c7dc7f338657f9

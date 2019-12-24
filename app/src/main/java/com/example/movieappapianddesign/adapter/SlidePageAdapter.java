@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
-
 import com.example.movieappapianddesign.R;
 import com.example.movieappapianddesign.model.Slide;
 import java.util.List;

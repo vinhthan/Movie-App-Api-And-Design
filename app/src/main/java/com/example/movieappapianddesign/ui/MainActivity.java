@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.example.movieappapianddesign.R;
-import com.example.movieappapianddesign.adapter.ItemOnclickListener;
+import com.example.movieappapianddesign.adapter.ItemOnClickListenerPopular;
+import com.example.movieappapianddesign.adapter.ItemOnClickListenerUpcoming;
 import com.example.movieappapianddesign.adapter.PopularMovieAdapter;
 import com.example.movieappapianddesign.adapter.SlidePageAdapter;
 import com.example.movieappapianddesign.adapter.UpcomingMovieAdapter;
@@ -20,15 +19,13 @@ import com.example.movieappapianddesign.model.Constants;
 import com.example.movieappapianddesign.model.PopularMovies;
 import com.example.movieappapianddesign.model.Slide;
 import com.example.movieappapianddesign.model.UpcomingMovies;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ItemOnclickListener {
+public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming {
     private RecyclerView recyclerView, recyclerViewUpComing;
     private List<PopularMovies.Results> mListPopular;
     private List<UpcomingMovies.Results> mListUpComing;
@@ -51,13 +48,10 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
 
         getMoviesUpComing();
 
-
         //slide
         //initSlideImage();
 
     }
-
-
 
 
     //slide
@@ -117,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
                     //add list
                     mListPopular.addAll(response.body().getResults());
                     popularMovieAdapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -131,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
     private void getMoviesUpComing() {
         recyclerViewUpComing = findViewById(R.id.recyclerViewUpComing);
         mListUpComing = new ArrayList<>();
-        upComingMovieAdapter = new UpcomingMovieAdapter(mListUpComing, this);
+        upComingMovieAdapter = new UpcomingMovieAdapter(mListUpComing, this, this::onClickListenerUpcoming);
         recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpComing.setHasFixedSize(true);
         recyclerViewUpComing.setAdapter(upComingMovieAdapter);
@@ -158,21 +151,32 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
     }
 
 
-
     @Override
     public void onClickListenerPopularMovies(int position) {
         PopularMovies.Results movie = mListPopular.get(position);
         //Toast.makeText(this, "Position: "+ position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this, MoviesDetailActivity.class);
-        intent.putExtra("title", movie.getTitle());
-        intent.putExtra("imagePoster", movie.getBackdropPath());
-        intent.putExtra("smallPoster", movie.getPosterPath());
-        intent.putExtra("overview", movie.getOverview());
+        intent.putExtra("titlePopular", movie.getTitle());
+        intent.putExtra("imagePosterPopular", movie.getBackdropPath());
+        intent.putExtra("smallPosterPopular", movie.getPosterPath());
+        intent.putExtra("overviewPopular", movie.getOverview());
 
         startActivity(intent);
     }
 
 
+    @Override
+    public void onClickListenerUpcoming(int position) {
+        UpcomingMovies.Results movieUpcoming = mListUpComing.get(position);
+        //Toast.makeText(this, "Position: "+ position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, MoviesDetailActivity.class);
+        intent.putExtra("titleUpcoming", movieUpcoming.getTitle());
+        intent.putExtra("imagePosterUpcoming", movieUpcoming.getBackdropPath());
+        intent.putExtra("smallPosterUpcoming", movieUpcoming.getPosterPath());
+        intent.putExtra("overviewUpcoming", movieUpcoming.getOverview());
+
+        startActivity(intent);
+    }
 }
 //api key:
 //034bbd1b233d6726e0c7dc7f338657f9

@@ -1,7 +1,6 @@
 package com.example.movieappapianddesign.api;
 
 import com.example.movieappapianddesign.model.Constants;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
