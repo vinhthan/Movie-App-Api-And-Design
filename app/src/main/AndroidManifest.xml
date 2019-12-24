@@ -16,7 +16,6 @@
         <activity android:name=".ui.login.DashboardActivity"></activity>
         <activity android:name=".ui.login.RegistrationActivity" />
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.login.Main2Activity" />
         <activity android:name=".ui.movies.MoviesDetailUpcomingActivity" />
         <activity android:name=".ui.movies.MoviesDetailPopularActivity" />
         <activity android:name=".ui.movies.MainActivity">
