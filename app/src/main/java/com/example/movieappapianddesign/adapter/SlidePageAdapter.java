@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
 import com.example.movieappapianddesign.R;
-import com.example.movieappapianddesign.model.PopularMovies;
-import com.example.movieappapianddesign.model.Slides;
+import com.example.movieappapianddesign.model.Slide;
 import java.util.List;
 
 public class SlidePageAdapter extends PagerAdapter {
@@ -26,13 +26,18 @@ public class SlidePageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View slideLayout = inflater.inflate(R.layout.slide_item, null);
+        View slideLayout = inflater.inflate(R.layout.slide_item, container, false);
 
         //
-        ImageView slideImg = slideLayout.findViewById(R.id.imgSlide);
+        PopularMovies.Results slideMovie = listSlide.get(position);
+
+        ImageView imgSlide = slideLayout.findViewById(R.id.imgSlide);
+        Glide.with(context).load(slideMovie.getBackdropPath()).into(imgSlide);
+
+*//*        ImageView slideImg = slideLayout.findViewById(R.id.imgSlide);
         TextView slideText = slideLayout.findViewById(R.id.txvSlideTitle);
         slideImg.setImageResource(listSlide.get(position).getImage());
-        slideText.setText(listSlide.get(position).getTitle());
+        slideText.setText(listSlide.get(position).getTitle());*//*
 
 
         container.addView(slideLayout);
@@ -57,10 +62,12 @@ public class SlidePageAdapter extends PagerAdapter {
         container.removeView((View)object);
     }*/
 
-    private Context mContext;
-    private List<Slides> mList;
 
-    public SlidePageAdapter(Context mContext, List<Slides> mList) {
+
+    private Context mContext;
+    private List<Slide> mList;
+
+    public SlidePageAdapter(Context mContext, List<Slide> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }

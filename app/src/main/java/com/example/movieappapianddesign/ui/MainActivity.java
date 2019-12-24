@@ -7,37 +7,38 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.movieappapianddesign.R;
 import com.example.movieappapianddesign.adapter.ItemOnclickListener;
 import com.example.movieappapianddesign.adapter.PopularMovieAdapter;
 import com.example.movieappapianddesign.adapter.SlidePageAdapter;
+import com.example.movieappapianddesign.adapter.UpcomingMovieAdapter;
 import com.example.movieappapianddesign.api.ApiClient;
 import com.example.movieappapianddesign.api.ApiInterface;
 import com.example.movieappapianddesign.model.Constants;
 import com.example.movieappapianddesign.model.PopularMovies;
-import com.example.movieappapianddesign.model.Slides;
+import com.example.movieappapianddesign.model.Slide;
+import com.example.movieappapianddesign.model.UpcomingMovies;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements ItemOnclickListener {
-    private RecyclerView recyclerView;
-    private List<PopularMovies.Results> mList;
+    private RecyclerView recyclerView, recyclerViewUpComing;
+    private List<PopularMovies.Results> mListPopular;
+    private List<UpcomingMovies.Results> mListUpComing;
     private PopularMovieAdapter popularMovieAdapter;
+    private UpcomingMovieAdapter upComingMovieAdapter;
 
     private ApiInterface apiInterface;
     private SlidePageAdapter slidePageAdapter;
     private ViewPager slidePage;
-    private List<Slides> listSlides;
+    private List<Slide> listSlides;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +47,29 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
 
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
-        getMovies();
+        getMoviesPopular();
 
-        initSlideImage();
+        getMoviesUpComing();
+
+
+        //slide
+        //initSlideImage();
 
     }
 
-    private void initSlideImage() {
+
+
+
+    //slide
+/*    private void initSlideImage() {
         slidePage = findViewById(R.id.slidePage);
         //list slide
         listSlides = new ArrayList<>();
 
-        listSlides.add(new Slides(R.drawable.slide2, "Slide title \nmore text here"));
-        listSlides.add(new Slides(R.drawable.slide3, "Slide title \nmore text here"));
-        listSlides.add(new Slides(R.drawable.slide2, "Slide title \nmore text here"));
-        listSlides.add(new Slides(R.drawable.slide3, "Slide title \nmore text here"));
+        listSlides.add(new Slide(R.drawable.slide2, "Slide title \nmore text here"));
+        listSlides.add(new Slide(R.drawable.slide3, "Slide title \nmore text here"));
+        listSlides.add(new Slide(R.drawable.slide2, "Slide title \nmore text here"));
+        listSlides.add(new Slide(R.drawable.slide3, "Slide title \nmore text here"));
 
         slidePageAdapter = new SlidePageAdapter(this, listSlides);
         slidePage.setAdapter(slidePageAdapter);
@@ -71,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
                 3000, 4000);//img dau 3s, img sau 4s
 
     }
-
 
     private class SlideTime extends TimerTask {
         @Override
@@ -87,28 +95,28 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
                 }
             });
         }
-    }
+    }*/
 
-    private void getMovies() {
+
+    private void getMoviesPopular() {
         recyclerView = findViewById(R.id.recyclerView);
-        mList = new ArrayList<>();
-        popularMovieAdapter = new PopularMovieAdapter(mList, this, this::onClickListener);
+        mListPopular = new ArrayList<>();
+        popularMovieAdapter = new PopularMovieAdapter(mListPopular, this, this::onClickListenerPopularMovies);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(popularMovieAdapter);
 
-        Call<PopularMovies> call = apiInterface.getMovies(Constants.KEY_API);
+        Call<PopularMovies> call = apiInterface.getMoviesPopular(Constants.KEY_API);
         call.enqueue(new Callback<PopularMovies>() {
             @Override
             public void onResponse(Call<PopularMovies> call, Response<PopularMovies> response) {
                 if (response.isSuccessful()){
-                    if (!mList.isEmpty()){
-                        mList.clear();
+                    if (!mListPopular.isEmpty()){
+                        mListPopular.clear();
                     }
                     //add list
-                    mList.addAll(response.body().getResults());
+                    mListPopular.addAll(response.body().getResults());
                     popularMovieAdapter.notifyDataSetChanged();
-
 
                 }
             }
@@ -120,12 +128,42 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
         });
     }
 
+    private void getMoviesUpComing() {
+        recyclerViewUpComing = findViewById(R.id.recyclerViewUpComing);
+        mListUpComing = new ArrayList<>();
+        upComingMovieAdapter = new UpcomingMovieAdapter(mListUpComing, this);
+        recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewUpComing.setHasFixedSize(true);
+        recyclerViewUpComing.setAdapter(upComingMovieAdapter);
+
+        Call<UpcomingMovies> callUpComingMovies = apiInterface.getMoviesUpComing(Constants.KEY_API);
+        callUpComingMovies.enqueue(new Callback<UpcomingMovies>() {
+            @Override
+            public void onResponse(Call<UpcomingMovies> call, Response<UpcomingMovies> response) {
+                if (response.isSuccessful()){
+                    if (!mListUpComing.isEmpty()){
+                        mListUpComing.clear();
+                    }
+                    //add list
+                    mListUpComing.addAll(response.body().getResults());
+                    upComingMovieAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpcomingMovies> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
     @Override
-    public void onClickListener(int position) {
-        PopularMovies.Results movie = mList.get(position);
+    public void onClickListenerPopularMovies(int position) {
+        PopularMovies.Results movie = mListPopular.get(position);
         //Toast.makeText(this, "Position: "+ position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, MoviesDetailActivity.class);
         intent.putExtra("title", movie.getTitle());
         intent.putExtra("imagePoster", movie.getBackdropPath());
         intent.putExtra("smallPoster", movie.getPosterPath());
@@ -135,14 +173,14 @@ public class MainActivity extends AppCompatActivity implements ItemOnclickListen
     }
 
 
-
-
 }
 //api key:
 //034bbd1b233d6726e0c7dc7f338657f9
 //
 //URL:
+//Popular movie
 //https://api.themoviedb.org/3/movie/popular?api_key=034bbd1b233d6726e0c7dc7f338657f9
-//
+//Upcoming movie
+//https://api.themoviedb.org/3/movie/upcoming?api_key=034bbd1b233d6726e0c7dc7f338657f9
 //poster
 //https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg

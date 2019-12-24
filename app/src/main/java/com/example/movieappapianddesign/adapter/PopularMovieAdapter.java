@@ -41,9 +41,9 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PopularMovies.Results movie = list.get(position);
 
-        holder.txvItemMovieTitle.setText(movie.getTitle());
-        holder.txvDate.setText(movie.getReleaseDate());
-        Glide.with(context).load(movie.getBackdropPath()).into(holder.imgItemMovie);
+        holder.txvMovieTitlePopular.setText(movie.getTitle());
+        holder.txvDatePopular.setText(movie.getReleaseDate());
+        Glide.with(context).load(movie.getBackdropPath()).into(holder.imgMoviePopular);
 
 
     }
@@ -54,21 +54,21 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView txvItemMovieTitle, txvDate;
-        private ImageView imgItemMovie;
+        private TextView txvMovieTitlePopular, txvDatePopular;
+        private ImageView imgMoviePopular;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txvItemMovieTitle = itemView.findViewById(R.id.txvItemMovieTitle);
-            txvDate = itemView.findViewById(R.id.txvDate);
-            imgItemMovie = itemView.findViewById(R.id.imgItemMovie);
+            txvMovieTitlePopular = itemView.findViewById(R.id.txvMovieTitlePopular);
+            txvDatePopular = itemView.findViewById(R.id.txvDatePopular);
+            imgMoviePopular = itemView.findViewById(R.id.imgMoviePopular);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemOnclickListener.onClickListener(getPosition());
+                    itemOnclickListener.onClickListenerPopularMovies(getPosition());
                 }
             });
 

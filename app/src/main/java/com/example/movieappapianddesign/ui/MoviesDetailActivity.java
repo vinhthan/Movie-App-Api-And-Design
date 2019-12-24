@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.movieappapianddesign.R;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MoviesDetailActivity extends AppCompatActivity {
     private ImageView imgPosterDetail, imgSmallPoster;
     private TextView txvDetailMovieTitle, txvOverview;
 

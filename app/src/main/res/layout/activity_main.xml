@@ -9,15 +9,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.viewpager.widget.ViewPager
+
+<!--        <androidx.viewpager.widget.ViewPager
             android:id="@+id/slidePage"
             android:layout_width="match_parent"
             android:layout_height="275dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-        </androidx.viewpager.widget.ViewPager>
+        </androidx.viewpager.widget.ViewPager>-->
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewUpComing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TableLayout
             android:id="@+id/indicator"
@@ -25,8 +36,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/indicator_selector"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/slidePage"
-            app:layout_constraintTop_toBottomOf="@+id/slidePage"
+            app:layout_constraintStart_toStartOf="@+id/recyclerViewUpComing"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewUpComing"
             app:tabIndicatorHeight="0dp">
 
         </TableLayout>
@@ -37,20 +48,34 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text=""
+            android:text="@string/popular"
             android:textColor="@color/colorRed"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/slidePage"
-            app:layout_constraintTop_toBottomOf="@+id/slidePage" />
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/recyclerViewUpComing"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewUpComing" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="Upcoming"
+            android:textStyle="bold"
+            android:textColor="@color/colorRed"
+            android:textSize="23sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <!--        <TextView
