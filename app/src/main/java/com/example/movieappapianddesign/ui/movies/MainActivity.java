@@ -1,11 +1,15 @@
 package com.example.movieappapianddesign.ui.movies;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,8 +29,12 @@ import com.example.movieappapianddesign.model.Constants;
 import com.example.movieappapianddesign.model.PopularMovies;
 import com.example.movieappapianddesign.model.Slide;
 import com.example.movieappapianddesign.model.UpcomingMovies;
+import com.example.movieappapianddesign.ui.login.LoginActivity;
 import com.example.movieappapianddesign.ui.login.RegistrationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -34,12 +42,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming {
-    private ImageView imgRight, imgLeft;
+    private ImageView imgRight, imgLeft, imgSlectPhoto;
     private RecyclerView recyclerView, recyclerViewUpComing;
     private List<PopularMovies.Results> mListPopular;
     private List<UpcomingMovies.Results> mListUpComing;
     private PopularMovieAdapter popularMovieAdapter;
     private UpcomingMovieAdapter upComingMovieAdapter;
+
+    public static final int PICK_IMAGE = 1;
+
+    private FirebaseAuth auth;
 
     private ApiInterface apiInterface;
     private SlidePageAdapter slidePageAdapter;
@@ -53,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
         imgRight = findViewById(R.id.imgRight);
         imgLeft = findViewById(R.id.imgLeft);
+
+        imgSlectPhoto = findViewById(R.id.imgSelectPhoto);
 
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
@@ -180,23 +194,59 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         startActivity(intentUp);
     }
 
-    //menu
+    //menu_main
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_register, menu);
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menuRegister:
-                Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
-                startActivity(intent);
+                Intent intentRegis = new Intent(MainActivity.this, RegistrationActivity.class);
+                startActivity(intentRegis);
+                break;
+            case R.id.menuLogin:
+                Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intentLogin);
+                break;
+
+            case R.id.menuProfile:
+                Intent intentSelectPhoto = new Intent(Intent.ACTION_PICK);
+                intentSelectPhoto.setType("image/*");
+                startActivityForResult(intentSelectPhoto, PICK_IMAGE);
+                break;
+
+            case R.id.menuLogout:
+                auth.signOut();
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Select image
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE) {
+            //Toast.makeText(this, "Select: "+data, Toast.LENGTH_SHORT).show();
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                imgSlectPhoto.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 }
 //api key:
