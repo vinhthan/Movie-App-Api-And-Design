@@ -2,10 +2,13 @@ package com.example.movieappapianddesign.ui.movies;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,21 +19,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.movieappapianddesign.R;
 import com.example.movieappapianddesign.adapter.ItemOnClickListenerPopular;
 import com.example.movieappapianddesign.adapter.ItemOnClickListenerUpcoming;
 import com.example.movieappapianddesign.adapter.PopularMovieAdapter;
-import com.example.movieappapianddesign.adapter.SlidePageAdapter;
 import com.example.movieappapianddesign.adapter.UpcomingMovieAdapter;
 import com.example.movieappapianddesign.api.ApiClient;
 import com.example.movieappapianddesign.api.ApiInterface;
 import com.example.movieappapianddesign.model.Constants;
 import com.example.movieappapianddesign.model.PopularMovies;
-import com.example.movieappapianddesign.model.Slide;
 import com.example.movieappapianddesign.model.UpcomingMovies;
 import com.example.movieappapianddesign.ui.login.LoginActivity;
 import com.example.movieappapianddesign.ui.login.RegistrationActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.FileNotFoundException;
@@ -41,8 +45,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming {
-    private ImageView imgRight, imgLeft, imgSlectPhoto;
+public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming, NavigationView.OnNavigationItemSelectedListener {
+    private ImageView imgRight, imgLeft, imgUser;
+    private TextView txvEmailUser;
+
     private RecyclerView recyclerView, recyclerViewUpComing;
     private List<PopularMovies.Results> mListPopular;
     private List<UpcomingMovies.Results> mListUpComing;
@@ -54,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
     private FirebaseAuth auth;
 
     private ApiInterface apiInterface;
-    private SlidePageAdapter slidePageAdapter;
-    private ViewPager slidePage;
-    private List<Slide> listSlides;
+    //
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,20 +71,135 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
         imgRight = findViewById(R.id.imgRight);
         imgLeft = findViewById(R.id.imgLeft);
-
-        imgSlectPhoto = findViewById(R.id.imgSelectPhoto);
+        imgUser = findViewById(R.id.imgUser);
+        txvEmailUser = findViewById(R.id.txvEmailUser);
 
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+
+        auth = FirebaseAuth.getInstance();
 
         getMoviesPopular();
 
         getMoviesUpComing();
 
         hideShowLeftRight();
+        
+        //
+        drawermenu();
+        setNavigationViewListener();
 
+        //event click header
+        //clickHeader();//không dc dùng kiểu này
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "image", Toast.LENGTH_SHORT).show();
+                Intent intentSelectPhoto = new Intent(Intent.ACTION_PICK);
+                intentSelectPhoto.setType("image/*");
+                startActivityForResult(intentSelectPhoto, PICK_IMAGE);
+            }
+        });
+        txvEmailUser.setText("text");
+    }
 
+/*    private void clickHeader() {
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "image", Toast.LENGTH_SHORT).show();
+            }
+        });
+        txvEmailUser.setText("text");
+    }*/
+
+    private void setNavigationViewListener() {
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+        //khai báo để bắt sự kiện trong header
+        View headerView = navigationView.getHeaderView(0);
+        imgUser = headerView.findViewById(R.id.imgUser);
+        txvEmailUser = headerView.findViewById(R.id.txvEmailUser);
 
     }
+
+    private void drawermenu() {
+        drawerLayout = findViewById(R.id.drawerMenu);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        switch (item.getItemId()){
+            case R.id.imgUser:
+                //Toast.makeText(this, "image", Toast.LENGTH_SHORT).show();
+                //open gallery in device
+                Intent intentSelectPhoto = new Intent(Intent.ACTION_PICK);
+                intentSelectPhoto.setType("image/*");
+                startActivityForResult(intentSelectPhoto, PICK_IMAGE);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //select item menu
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+            case R.id.menuRegister:
+                Intent intentRegis = new Intent(MainActivity.this, RegistrationActivity.class);
+                startActivity(intentRegis);
+                break;
+            case R.id.menuLogin:
+                Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intentLogin);
+                break;
+
+            case R.id.imgUser:
+                Toast.makeText(this, "Image User", Toast.LENGTH_SHORT).show();
+                Intent intentSelectPhoto = new Intent(Intent.ACTION_PICK);
+                intentSelectPhoto.setType("image/*");
+                startActivityForResult(intentSelectPhoto, PICK_IMAGE);
+                break;
+
+            case R.id.menuLogout:
+                auth.signOut();
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    //Select Image User
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE) {
+            //Toast.makeText(this, "Select: "+data, Toast.LENGTH_SHORT).show();
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                imgUser.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
 
     private void hideShowLeftRight() {
         recyclerViewUpComing.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -194,9 +315,11 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         startActivity(intentUp);
     }
 
-    //menu_main
 
-    @Override
+
+//menu right
+
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
@@ -247,7 +370,10 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
             }
 
         }
-    }
+    }*/
+
+
+
 }
 //api key:
 //034bbd1b233d6726e0c7dc7f338657f9
