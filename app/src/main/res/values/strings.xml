@@ -11,6 +11,7 @@
     <string name="register">Register</string>
     <string name="account_login">Account login</string>
     <string name="login">Login</string>
+    <string name="login_with_google_account">Login with Google account</string>
 
 
     <string name="open">Open</string>

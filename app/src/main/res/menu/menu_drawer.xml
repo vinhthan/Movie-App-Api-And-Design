@@ -4,6 +4,7 @@
     <item android:title="Register" android:id="@+id/menuRegister"/>
     <item android:title="Login" android:id="@+id/menuLogin" />
     <item android:id="@+id/menuLogout" android:title="Logout"/>
+    <item android:id="@+id/menuContactUs" android:title="Contact us"/>
 
 
 </menu>

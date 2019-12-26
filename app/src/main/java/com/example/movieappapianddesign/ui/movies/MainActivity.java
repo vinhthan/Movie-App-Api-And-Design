@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,8 +35,21 @@ import com.example.movieappapianddesign.model.PopularMovies;
 import com.example.movieappapianddesign.model.UpcomingMovies;
 import com.example.movieappapianddesign.ui.login.LoginActivity;
 import com.example.movieappapianddesign.ui.login.RegistrationActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -109,6 +123,20 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
     }
 
+    //check to see if the user is currently signed in
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = auth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+
+    }
+
+
 /*    private void clickHeader() {
         imgUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         View headerView = navigationView.getHeaderView(0);
         imgUser = headerView.findViewById(R.id.imgUser);
         txvEmailUser = headerView.findViewById(R.id.txvEmailUser);
+        //txvLoginWithGoogle = headerView.findViewById(R.id.txvLoginWithGoogle);
 
     }
 
@@ -164,19 +193,10 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
             case R.id.menuRegister:
                 Intent intentRegis = new Intent(MainActivity.this, RegistrationActivity.class);
                 startActivity(intentRegis);
-                Toast.makeText(this, "Registration success", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menuLogin:
                 Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intentLogin);
-                Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.imgUser:
-                Toast.makeText(this, "Image User", Toast.LENGTH_SHORT).show();
-                Intent intentSelectPhoto = new Intent(Intent.ACTION_PICK);
-                intentSelectPhoto.setType("image/*");
-                startActivityForResult(intentSelectPhoto, PICK_IMAGE);
                 break;
 
             case R.id.menuLogout:
@@ -184,7 +204,14 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                 Toast.makeText(this, "Logout success!", Toast.LENGTH_SHORT).show();
                 txvEmailUser.setText("");
                 break;
-            default:
+            case R.id.menuContactUs:
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{"thanmanhvinh@gmail.com"});
+                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+                //email.putExtra(Intent.EXTRA_TEXT, "");
+                email.setType("message/rfc822");
+                startActivity(Intent.createChooser(email, "Choose an Email client: "));
+                default:
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -195,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //select image user
         if (requestCode == PICK_IMAGE) {
             //Toast.makeText(this, "Select: "+data, Toast.LENGTH_SHORT).show();
             try {
@@ -211,10 +239,8 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                 e.printStackTrace();
                 Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
             }
-
         }
     }
-
 
     private void hideShowLeftRight() {
         recyclerViewUpComing.addOnScrollListener(new RecyclerView.OnScrollListener() {
