@@ -9,9 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,7 +64,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming, NavigationView.OnNavigationItemSelectedListener {
     private ImageView imgRight, imgLeft, imgUser;
-    private TextView txvEmailUser;
+    private TextView txvEmailUser, txvChangeAvatar;
 
     private RecyclerView recyclerView, recyclerViewUpComing;
     private List<PopularMovies.Results> mListPopular;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         imgLeft = findViewById(R.id.imgLeft);
         imgUser = findViewById(R.id.imgUser);
         txvEmailUser = findViewById(R.id.txvEmailUser);
+        txvChangeAvatar = findViewById(R.id.txvChangeAvatar);
 
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
@@ -121,7 +126,12 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
         }
 
+
+        //check Internet
+        checkInternet();
+
     }
+
 
     //check to see if the user is currently signed in
     @Override
@@ -154,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         View headerView = navigationView.getHeaderView(0);
         imgUser = headerView.findViewById(R.id.imgUser);
         txvEmailUser = headerView.findViewById(R.id.txvEmailUser);
+        txvChangeAvatar = headerView.findViewById(R.id.txvChangeAvatar);
         //txvLoginWithGoogle = headerView.findViewById(R.id.txvLoginWithGoogle);
 
     }
@@ -231,6 +242,8 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     imgUser.setImageBitmap(selectedImage);
+
+                    txvChangeAvatar.setVisibility(View.GONE);
                 }else {
                     return;
                 }
@@ -293,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
             @Override
             public void onFailure(Call<PopularMovies> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -323,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
             @Override
             public void onFailure(Call<UpcomingMovies> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -354,6 +367,21 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         intentUp.putExtra("overviewUpcoming", movieUpcoming.getOverview());
 
         startActivity(intentUp);
+    }
+
+    private void checkInternet() {
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED){
+            connected = true;
+        }else {
+            connected = false;
+            Intent intentNotConnect = new Intent(MainActivity.this, NotInternetActivity.class);
+            startActivity(intentNotConnect);
+
+        }
+
     }
 
 
