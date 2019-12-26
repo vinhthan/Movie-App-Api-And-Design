@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
     //select item menu
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+        //header nó nằm trong main chứ không phải menu
         switch (menuItem.getItemId()) {
             case R.id.menuRegister:
                 Intent intentRegis = new Intent(MainActivity.this, RegistrationActivity.class);
@@ -198,10 +198,15 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         if (requestCode == PICK_IMAGE) {
             //Toast.makeText(this, "Select: "+data, Toast.LENGTH_SHORT).show();
             try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                imgUser.setImageBitmap(selectedImage);
+                if (data != null){//phải check null k là sẽ bị lỗi
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    imgUser.setImageBitmap(selectedImage);
+                }else {
+                    return;
+                }
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
