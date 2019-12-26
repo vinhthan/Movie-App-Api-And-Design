@@ -164,10 +164,12 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
             case R.id.menuRegister:
                 Intent intentRegis = new Intent(MainActivity.this, RegistrationActivity.class);
                 startActivity(intentRegis);
+                Toast.makeText(this, "Registration success", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menuLogin:
                 Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intentLogin);
+                Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.imgUser:
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
             case R.id.menuLogout:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(this, "Logout success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Logout success!", Toast.LENGTH_SHORT).show();
                 txvEmailUser.setText("");
                 break;
             default:
