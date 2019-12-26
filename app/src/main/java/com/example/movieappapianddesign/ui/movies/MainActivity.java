@@ -99,7 +99,14 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                 startActivityForResult(intentSelectPhoto, PICK_IMAGE);
             }
         });
-        txvEmailUser.setText("text");
+        //get Email User
+        try {
+            String email = auth.getCurrentUser().getEmail();
+            txvEmailUser.setText(email);
+        }catch (Exception e){
+
+        }
+
     }
 
 /*    private void clickHeader() {
@@ -171,8 +178,9 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                 break;
 
             case R.id.menuLogout:
-                auth.signOut();
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(this, "Logout success", Toast.LENGTH_SHORT).show();
+                txvEmailUser.setText("");
                 break;
             default:
                 break;

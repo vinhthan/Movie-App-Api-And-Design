@@ -72,5 +72,8 @@ dependencies {
     //login with google
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //custom ImageView, bo tròn...
+    implementation 'de.hdodenhof:circleimageview:1.2.1'
 }
 apply plugin: 'com.google.gms.google-services'
