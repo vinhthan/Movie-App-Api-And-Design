@@ -83,16 +83,6 @@
             app:layout_constraintTop_toTopOf="@+id/imgRight"
             app:srcCompat="@drawable/ic_left" />
 
-        <ImageView
-            android:id="@+id/imgSelectPhoto"
-            android:layout_width="63dp"
-            android:layout_height="62dp"
-            android:layout_marginStart="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerViewUpComing"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
         <!--
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar2"
