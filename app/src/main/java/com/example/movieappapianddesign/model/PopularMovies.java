@@ -7,10 +7,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class PopularMovies {
+    @SerializedName("page")
     private final int page;
 
     private final int totalResults;
 
+    @SerializedName("total_pages")
     private final int totalPages;
 
     @SerializedName("results")

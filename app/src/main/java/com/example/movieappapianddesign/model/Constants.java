@@ -3,6 +3,7 @@ package com.example.movieappapianddesign.model;
 public class Constants {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String KEY_API = "034bbd1b233d6726e0c7dc7f338657f9";
+
 }
 //api key:
 //034bbd1b233d6726e0c7dc7f338657f9

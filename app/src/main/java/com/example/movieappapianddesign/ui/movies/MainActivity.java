@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements ItemOnClickListenerPopular, ItemOnClickListenerUpcoming, NavigationView.OnNavigationItemSelectedListener {
     private ImageView imgRight, imgLeft, imgUser;
     private TextView txvEmailUser, txvChangeAvatar;
+    private Button btnLoadMore;
 
     private RecyclerView recyclerView, recyclerViewUpComing;
     private List<PopularMovies.Results> mListPopular;
@@ -81,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+    //
+    int PAGE =1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         imgUser = findViewById(R.id.imgUser);
         txvEmailUser = findViewById(R.id.txvEmailUser);
         txvChangeAvatar = findViewById(R.id.txvChangeAvatar);
+        btnLoadMore = findViewById(R.id.btnLoadMore);
 
         apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
@@ -290,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(popularMovieAdapter);
 
-        Call<PopularMovies> call = apiInterface.getMoviesPopular(Constants.KEY_API);
+        Call<PopularMovies> call = apiInterface.getMoviesPopular(Constants.KEY_API, PAGE);
         call.enqueue(new Callback<PopularMovies>() {
             @Override
             public void onResponse(Call<PopularMovies> call, Response<PopularMovies> response) {
@@ -301,6 +307,37 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
                     //add list
                     mListPopular.addAll(response.body().getResults());
                     popularMovieAdapter.notifyDataSetChanged();
+
+                    //Load More
+                    btnLoadMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            PAGE = PAGE + 1;
+
+                            Call<PopularMovies> calls = apiInterface.getMoviesPopular(Constants.KEY_API, PAGE);
+                            calls.enqueue(new Callback<PopularMovies>() {
+                                @Override
+                                public void onResponse(Call<PopularMovies> call, Response<PopularMovies> response) {
+                                    if (response.isSuccessful()) {
+                                        //khi load more thì không cần clear nữa nếu k nó sẽ cứ hiện ở vtri cuối cùng
+                                        /*if (!mListPopular.isEmpty()) {
+                                            mListPopular.clear();
+                                        }*/
+                                        //add list
+                                        mListPopular.addAll(response.body().getResults());
+                                        popularMovieAdapter.notifyDataSetChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<PopularMovies> call, Throwable t) {
+
+                                }
+                            });
+
+                        }
+                    });
+
                 }
             }
 
