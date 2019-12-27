@@ -10,7 +10,7 @@
 
     <!--Splash-->
 <!--    <style name="SplashThem" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>-->
 
 

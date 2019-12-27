@@ -2,7 +2,6 @@ package com.example.movieappapianddesign.api;
 
 import com.example.movieappapianddesign.model.PopularMovies;
 import com.example.movieappapianddesign.model.UpcomingMovies;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

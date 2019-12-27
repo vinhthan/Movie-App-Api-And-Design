@@ -1,15 +1,12 @@
 package com.example.movieappapianddesign.ui.movies;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.movieappapianddesign.R;
-import com.example.movieappapianddesign.adapter.ItemOnClickListenerUpcoming;
 
 public class MoviesDetailUpcomingActivity extends AppCompatActivity {
 
