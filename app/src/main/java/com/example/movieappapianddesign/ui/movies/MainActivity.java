@@ -407,59 +407,6 @@ public class MainActivity extends AppCompatActivity implements ItemOnClickListen
 
 //menu right
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menuRegister:
-                Intent intentRegis = new Intent(MainActivity.this, RegistrationActivity.class);
-                startActivity(intentRegis);
-                break;
-            case R.id.menuLogin:
-                Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intentLogin);
-                break;
-
-            case R.id.menuProfile:
-                Intent intentSelectPhoto = new Intent(Intent.ACTION_PICK);
-                intentSelectPhoto.setType("image/*");
-                startActivityForResult(intentSelectPhoto, PICK_IMAGE);
-                break;
-
-            case R.id.menuLogout:
-                auth.signOut();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    //Select image
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE) {
-            //Toast.makeText(this, "Select: "+data, Toast.LENGTH_SHORT).show();
-            try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                imgSlectPhoto.setImageBitmap(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
-            }
-
-        }
-    }*/
-
 
 
 }

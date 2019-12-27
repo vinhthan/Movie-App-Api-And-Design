@@ -18,10 +18,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     private Context context;
     private ItemOnClickListenerPopular itemOnclickListenerPopular;
 
-    /*public PopularMovieAdapter(List<PopularMovies.Results> list, Context context) {
-        this.list = list;
-        this.context = context;
-    }*/
 
     public PopularMovieAdapter(List<PopularMovies.Results> list, Context context, ItemOnClickListenerPopular itemOnclickListenerPopular) {
         this.list = list;
