@@ -47,13 +47,13 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgItemMovieUpComing, imgNext;
+        private ImageView imgItemMovieUpComing, imgRight;
         private TextView txvItemTitleUpComing, txvItemDateUpComing;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgItemMovieUpComing = itemView.findViewById(R.id.imgItemMovieUpComing);
-            imgNext = itemView.findViewById(R.id.imgRight);
+            imgRight = itemView.findViewById(R.id.imgRight);
             txvItemTitleUpComing = itemView.findViewById(R.id.txvItemTitleUpComing);
             txvItemDateUpComing = itemView.findViewById(R.id.txvItemDateUpComing);
 

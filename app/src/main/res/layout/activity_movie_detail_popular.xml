@@ -5,7 +5,7 @@
     android:id="@+id/txvVote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorViolet"
+    android:background="@color/colorBackgroundMain"
     tools:context=".ui.movies.MoviesDetailPopularActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
